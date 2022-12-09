@@ -16,9 +16,6 @@ pipeline {
                     parallel {
                         stage("Sonar Scan") {                
                             steps {
-                            sonarscan(sonar)
-                             {
-
     def sonarscanner = tool 'sonar-scanner'
     def sonarTestsPath = config.sonarTests ?: ''
           container("sonar") {
