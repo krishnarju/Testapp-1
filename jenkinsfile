@@ -21,10 +21,6 @@ pipeline {
     
 }
 } 
-                              
-                            }
-                        }
-                    }
         } // End of Sonar Scan
         stage('Deploy') {
             steps {
