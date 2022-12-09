@@ -14,9 +14,8 @@ pipeline {
         }
         stage('	scan') {
                     parallel {
-                        stage('Docker Build') {
-    	agent any
-      steps {
+             stage('Docker Build')
+                steps {
       	sh 'docker build -t test/spring-petclinic:latest .'
       }
     }
