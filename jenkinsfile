@@ -12,16 +12,15 @@ pipeline {
                sh 'mvn -B -DskipTests clean package'
             }
         }
-       stage('Scan') {
-                    parallel {
-                        stage("Sonar Scan") {
-                           
-                            steps {
-                                sonarscan(sonar)
-                            }
-                        }
-                    }
-        } // End of Sonar Scan
+       stage('CodeCoverage') {
+         steps {
+             withSonarQubeEnv('sonarqube') {  bat "${scannerHome}/bin/sonar-scanner.bat"}
+            script{ System.getenv().put('sonar-project.properties', 'D:/$$chidambaram$$/Action-master/sonar-project.properties')
+                
+            }
+             bat "sonar-scanner -Dsonar.projectKey=org.konakart:Konakart -Dsonar.sources=."
+         }
+     }
                         
     stage("NexusIQ") {
                             steps {
