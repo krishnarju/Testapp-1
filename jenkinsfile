@@ -1,4 +1,4 @@
-
+pipeline {
     agent any
 
     stages {
@@ -12,27 +12,28 @@
                sh 'mvn -B -DskipTests clean package'
             }
         }
-       stage('CodeCoverage') {
-         steps {
-             withSonarQubeEnv('sonarqube') {  bat "${scannerHome}/bin/sonar-scanner.bat"}
-            script { System.getenv().put('sonar-project.properties', 'D:/$$chidambaram$$/Action-master/sonar-project.properties')
-                
-            }
-             bat "sonar-scanner -Dsonar.projectKey=org.konakart:Konakart -Dsonar.sources=."
-         }
-     }
+       stage('Scan') {
+                    parallel {
+                        stage("Sonar Scan") {
+                           
+                            steps {
+                                sonarscan(sonar)
+                            }
+                        }
+                    }
+        } // End of Sonar Scan
                         
-    stage("NexusIQ") {
+    stage("NexusIQ Scan") {
                             steps {
                                 nexusIQScan(nexusIQ)
-                            }
+                           // }
         }
-} 
-          // End of Sonar Scan
-        
+
+        // } // End of Sonar Scan
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
             }
         }
+		} 
 		
