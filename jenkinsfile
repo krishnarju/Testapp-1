@@ -12,6 +12,15 @@ pipeline {
                sh 'mvn -B -DskipTests clean package'
             }
         }
+        stage('Scan') {
+                    parallel {
+                        stage("Sonar Scan") {                
+                            steps {
+                                sonarscan(sonar)
+                            }
+                        }
+                    }
+        } // End of Sonar Scan
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
