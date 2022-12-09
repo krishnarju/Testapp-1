@@ -23,7 +23,7 @@ pipeline {
                     }
         } // End of Sonar Scan
                         
-    stage("NexusIQ Scan") {
+    stage("NexusIQ") {
                             steps {
                                 nexusIQScan(nexusIQ)
                             }
