@@ -20,7 +20,6 @@ pipeline {
 
     def sonarscanner = tool 'sonar-scanner'
     def sonarTestsPath = config.sonarTests ?: ''
-      //  withSonarQubeEnv('Sonarqube-Server-Test') 
           container("sonar") {
           withSonarQubeEnv('Sonarqube-Server-Prod') {
             if ("${config.coverageReportFormat}" == 'jacoco.exec') {
