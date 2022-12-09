@@ -12,18 +12,22 @@ pipeline {
                sh 'mvn -B -DskipTests clean package'
             }
         }
-        stage('	scan') {
+       stage('Scan') {
                     parallel {
-            stage("Sonar Scan") {
-                            
+                        stage("Sonar Scan") {
+                           
                             steps {
                                 sonarscan(sonar)
                             }
                         }
-                               
+                    }
+        } // End of Sonar Scan
+                        
+    stage("NexusIQ Scan") {
+                            steps {
+                                nexusIQScan(nexusIQ)
+                            }
         }
-    
-}
 } 
         } // End of Sonar Scan
         stage('Deploy') {
