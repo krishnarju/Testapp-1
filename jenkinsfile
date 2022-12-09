@@ -16,20 +16,20 @@ pipeline {
                     parallel {
                         stage("Sonar Scan") {
                            
-                            //steps {
-                               // sonarscan(sonar)
-                           // }
+                            steps {
+                                sonarscan(sonar)
+                            }
                         }
                     }
         } // End of Sonar Scan
                         
-   // stage("NexusIQ Scan") {
-                           // steps {
+    stage("NexusIQ Scan") {
+                            steps {
                                 nexusIQScan(nexusIQ)
-                           // }
+                            }
         }
 } 
-        // } // End of Sonar Scan
+         } // End of Sonar Scan
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
