@@ -16,42 +16,7 @@ pipeline {
                     parallel {
                         stage("Sonar Scan") {                
                             steps {
-                               def call(Map config = [:]) {
-
-    def sonarscanner = tool 'sonar-scanner'
-    def sonarTestsPath = config.sonarTests ?: ''
-          container("sonar") {
-          withSonarQubeEnv('Sonarqube-Server-Prod') {
-            if ("${config.coverageReportFormat}" == 'jacoco.exec') {
-                sonarCoverageFormat = '-Dsonar.jacoco.reportPath'
-            } else {
-                sonarCoverageFormat = '-Dsonar.coverage.jacoco.xmlReportPaths'
-            }
-
-            sh """
-                         
-                       # java -version
-                       ${sonarscanner}/sonar-scanner -Dsonar.projectKey=${config.projectKey} \
-                                                          -Dsonar.projectName=${config.projectName} \
-                                                          -Dsonar.projectVersion=${config.sonarProjectVersion} \
-                                                          -Dsonar.sources=${config.sonarSources} \
-                                                          -Dsonar.tests=${sonarTestsPath} \
-                                                          -Dsonar.exclusions=${config.sonarExclusions} \
-                                                          -Dsonar.language=${config.sonarLanguage} \
-                                                          -Dsonar.junit.reportPaths=${config.sonarReportPath} \
-                                                          -Dsonar.java.binaries=${config.sonarBinaries} \
-                                                          -Dsonar.branch.name=${config.buildBranchName} \
-                                                          -Dsonar.sourceEncoding=${config.sonarSourceEncoding} \
-                                                          -Dsonar.sonar.coverage.exclusions=${config.coverageExclusionsLocation} \
-                                                          ${sonarCoverageFormat}=${config.jacocoCoverageReportsPath}\
-                                                          -Dsonar.structure101.reportdir=${config.s101ReportDir} \
-                                                          -Dsonar.structure101.java.headless.config=${config.s101HeadlessConfig} \
-                                                          -Dsonar.structure101.java.disabled=false \
-                                                          -Dsonar.scm.disabled=${config.sonarDisabled} \
-                                                          -Dsonar.c.file.suffixes=- \
-                                                          -Dsonar.cpp.file.suffixes=- \
-                                                          -Dsonar.objc.file.suffixes=-
-            """
+                               
         }
     
 }
