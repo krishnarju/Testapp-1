@@ -12,18 +12,21 @@ pipeline {
                sh 'mvn -B -DskipTests clean package'
             }
         }
-       stage('SonarQube analysis') {
-//    def scannerHome = tool 'SonarScanner 4.0';
-        steps{
-        withSonarQubeEnv('sonarqube-8.9') { 
-        // If you have configured more than one global server connection, you can specify its name
-//      sh "${scannerHome}/bin/sonar-scanner"
-        sh "mvn sonar:sonar"
+       stage('Scan') {
+                    parallel {
+                        stage("Sonar Scan") {
+                           
+                            steps {
+                                sonarscan(sonar)
+                            }
+                        }
+                    }
+        } // End of Sonar Scan
                         
     stage("NexusIQ Scan") {
                             steps {
                                 nexusIQScan(nexusIQ)
-                            }
+                           // }
         }
 
    } // End of Sonar Scan
@@ -32,8 +35,5 @@ pipeline {
                 echo 'Deploying....'
             }
         }
-		} 
-                }
-                }
-                }
-		
+    }
+}
